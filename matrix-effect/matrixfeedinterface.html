@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Feed Interface</title>
+    <style>
+        /* Minimal CSS here */
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            position: relative; /* Needed for absolute positioning of link */
+        }
+        canvas {
+            display: block;
+        }
+        /* Hide cursor globally */
+        html, body {
+            cursor: none;
+        }
+        /* Style for the Try Again link (No longer used by this page's script) */
+        #tryAgainLink {
+            display: none; /* Hidden by default, JS will show it */
+            position: absolute;
+            bottom: 5%;   /* Position near the bottom */
+            left: 50%;
+            transform: translateX(-50%); /* Center horizontally */
+            font-family: 'Consolas', 'Lucida Console', 'Courier New', monospace;
+            font-size: 24px; /* Medium size text */
+            color: black;    /* Black text to show against gold rain */
+            text-decoration: none;
+            background-color: rgba(255, 215, 0, 0.6); /* Optional subtle gold background */
+            padding: 5px 15px;
+            border-radius: 3px;
+            z-index: 100; /* Ensure it's above the canvas */
+            cursor: default; /* No longer interactive here */
+        }
+        /* Removed hover effect as link is non-functional here */
+    </style>
+</head>
+<body>
+    <!-- Canvas is where everything is drawn -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- ADDED: Hidden Try Again link for the win state (No longer functional here) -->
+    <a href="#" id="tryAgainLink">TRY AGAIN?</a>
+
+    <!-- Link to the external JavaScript file -->
+    <!-- CRITICAL: Ensure matrix_script.js exists in the same directory -->
+    <script src="matrix_script.js" defer></script>
+</body>
+</html>

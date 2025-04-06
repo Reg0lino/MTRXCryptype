@@ -1,0 +1,67 @@
+/* START OF FILE jackout_style.css */
+/* Minimal CSS for the jackout page */
+html {
+    height: 100%; /* Ensure html takes full height */
+    overflow: hidden; /* Hide scrollbars on the root element */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%; /* Use 100% width */
+    height: 100%; /* Use 100% height */
+    overflow: hidden; /* Hide scrollbars on body as well */
+    background-color: #000; /* Black background - should apply immediately */
+    font-family: 'Consolas', 'Lucida Console', 'Courier New', monospace;
+    cursor: none; /* Hide cursor */
+    position: relative; /* Needed for absolute positioning inside */
+}
+
+canvas {
+    display: block;
+    position: fixed; /* Use fixed positioning */
+    top: 0;
+    left: 0;
+    width: 100%;  /* Cover full viewport width */
+    height: 100%; /* Cover full viewport height */
+    z-index: 1; /* Behind link and intro cursor */
+    opacity: 0; /* Start hidden, JS will show it */
+    transition: opacity 0.5s ease-in;
+}
+
+/* Style for the intro cursor */
+#introCursor {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 5vw;
+    color: hsl(55, 80%, 30%);
+    text-shadow: 0 0 5px hsla(55, 100%, 50%, 0);
+    z-index: 50;
+    opacity: 0; /* JS controls visibility */
+    user-select: none;
+    cursor: pointer;
+}
+
+#tryAgainLink {
+    display: none; /* Hidden by default */
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    color: black;
+    background-color: rgba(255, 215, 0, 0.7);
+    padding: 8px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    z-index: 100; /* Above canvas and cursor */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#tryAgainLink:hover {
+     background-color: rgba(255, 215, 0, 0.9);
+}
+/* END OF FILE jackout_style.css */

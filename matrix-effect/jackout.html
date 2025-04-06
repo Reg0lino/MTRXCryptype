@@ -1,0 +1,100 @@
+<!-- START OF FILE jackout.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Terminated // Jack Out</title>
+    <!-- <link rel="stylesheet" href="jackout_style.css"> <-- Keep commented out if using embedded -->
+    <style>
+        /* START OF EMBEDDED jackout_style.css - v1.1.10 Final */
+        html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: default;
+            position: relative;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.8s ease-in;
+            pointer-events: none;
+        }
+
+        #introCursor {
+            position: absolute;
+            bottom: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 5vw;
+            color: hsl(55, 95%, 65%);
+            text-shadow: 0 0 8px hsla(55, 100%, 70%, 0);
+            z-index: 50;
+            opacity: 0;
+            user-select: none;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #tryAgainLink {
+            display: none;
+            position: absolute;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 600;
+            font-size: 36px;
+            color: black;
+            background-color: hsl(55, 95%, 60%); /* Yellow BG */
+            padding: 10px 25px;
+            border-radius: 4px;
+            border: none; /* No border */
+            text-decoration: none;
+            z-index: 100;
+            cursor: pointer;
+            transition: background-color 0.2s ease; /* Only transition BG color */
+            text-shadow: none;
+            white-space: nowrap;
+            will-change: top, left, transform;
+            pointer-events: auto;
+            /* Box shadow will be controlled by JS */
+            box-shadow: none;
+        }
+
+        #tryAgainLink:hover {
+            background-color: hsl(55, 100%, 70%); /* Brighter yellow BG */
+            color: black;
+        }
+        /* END OF EMBEDDED jackout_style.css */
+    </style>
+</head>
+<body>
+    <!-- Intro Cursor Element -->
+    <div id="introCursor">_</div>
+
+    <!-- Canvas for the gold rain effect -->
+    <canvas id="goldRainCanvas"></canvas>
+
+    <!-- Hidden Try Again link -->
+    <a href="landing.html" id="tryAgainLink"></a>
+
+    <!-- Link to the dedicated JavaScript for this page -->
+    <script src="jackout_script.js" defer></script>
+</body>
+</html>
+<!-- END OF FILE jackout.html -->

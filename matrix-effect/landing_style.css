@@ -1,0 +1,193 @@
+/* landing_style.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+    font-family: 'Consolas', 'Lucida Console', 'Courier New', monospace;
+    color: #0f0; /* Matrix green */
+    cursor: pointer; /* Indicate whole body is clickable initially */
+}
+
+.hidden {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+#stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* ADDED: Initial Cursor Styling */
+#initial-cursor {
+    position: absolute;
+    top: 15%; /* Same position as line1 */
+    left: 10%; /* Same position as line1 */
+    font-size: 2.2vw; /* Same size as line1 */
+    color: #0f0;
+    opacity: 0; /* Start hidden, controlled by JS */
+    display: inline-block; /* Needed to show */
+    transition: opacity 0.05s linear; /* Faster transition for JS blink */
+    z-index: 1; /* Just above background */
+}
+
+
+.line {
+    white-space: pre;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: inline; /* Ensure spans behave as expected */
+}
+
+#line1 {
+    font-size: 2.2vw;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    right: auto;
+    display: block; /* Makes it take its own line */
+    opacity: 0;
+}
+
+#line2-container {
+    position: absolute;
+    font-size: 1.8vw;
+    top: calc(15% + 2.8vw); /* Position relative to line1 */
+    left: 10%;
+    right: auto;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    white-space: pre; /* Preserve spaces */
+    display: block; /* Takes its own line */
+}
+
+#line2 {
+    opacity: 1; /* Text itself is visible once container is */
+    position: relative; /* Needed for potential relative positioning inside */
+    display: inline; /* Keep it inline with cursor */
+}
+
+#cursor {
+    /* Blinking handled by JS */
+    display: inline-block;
+    opacity: 0; /* Start hidden */
+    margin-left: 1px;
+    transition: opacity 0.05s linear; /* Faster transition for JS blink */
+    color: #0f0;
+    vertical-align: baseline; /* Align with text */
+}
+
+#center-cursor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3vw;
+    color: #0f0;
+    opacity: 0; /* Start hidden */
+    display: inline-block; /* Needed to show */
+    transition: opacity 0.05s linear; /* Faster transition for JS blink */
+}
+
+#line3-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    text-align: center;
+    width: 80%;
+    max-width: 800px;
+    z-index: 10; /* Above glitch overlay */
+    display: block; /* Takes its own space */
+}
+
+/* Style the LINK that wraps line3 */
+#follow-link {
+    font-size: 3vw;
+    padding: 10px; /* Apply padding to the link */
+    transition: color 0.3s ease, opacity 0.8s ease-out, transform 0.8s ease-out;
+    display: inline-block; /* Allow padding and transform */
+    opacity: 1; /* Link itself is visible once container is visible */
+    z-index: 11; /* Above container's z-index */
+    transform: scale(1);
+    /* Inherit color and remove underline set in HTML */
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+/* Style the DIV inside the link (where text appears) */
+#line3 {
+    position: relative; /* Keep relative for potential effects */
+    display: inline; /* Keep text inline */
+    opacity: 0; /* Typewriter will make it visible */
+    transition: none; /* Div opacity controlled by typewriter */
+}
+
+
+#follow-link.clickable { /* Apply clickable state to the LINK */
+    cursor: pointer;
+}
+
+#follow-link.clickable:hover { /* Apply hover state to the LINK */
+    /* Hover effect could be on the link or the inner div */
+     /* color: #3f3; /* Brighter green on hover */
+     /* Optional: Maybe target inner div for text color change? */
+     /* #line3 { color: #3f3; } */
+}
+
+#follow-link .glitching { /* Target inner div when link is being hovered/clicked */
+     color: #afa; /* Lighter green when glitching */
+     /* If startGlitch was applied to the link instead: */
+     /* color: #afa; */
+}
+
+/* Apply zoom effect to the LINK */
+#follow-link.zooming {
+    transform: scale(6); /* Zoom effect */
+    opacity: 0 !important; /* Ensure it fades out during zoom */
+    z-index: 100; /* Above transition overlay temporarily */
+}
+
+
+#transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0f0; /* Solid green */
+    opacity: 0; /* Start hidden */
+    z-index: 90; /* Below zooming text, above other content */
+    transition: opacity 0.3s ease-in-out; /* Default transition */
+    display: block; /* Ensure it's block */
+}
+
+#glitch-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 5; /* Behind main content like line3, but above background */
+    color: rgba(0, 255, 0, 0.15); /* Fainter green */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9px; /* Smaller characters */
+    line-height: 1.0;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-break: break-all;
+    opacity: 0; /* Start hidden, controlled by JS */
+    transition: opacity 0.2s ease-in-out;
+    will-change: contents; /* Perf hint */
+    background-color: rgba(0, 10, 0, 0.03); /* Very subtle dark green background */
+}
+
+#glitch-overlay.active {
+    opacity: 1; /* Make visible when active class is added */
+}
