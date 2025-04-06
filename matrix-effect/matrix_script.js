@@ -24,7 +24,7 @@
     // SECTION: Constants Definitions
     // ===============================================================
     // --- TEST MODE ---
-    const TEST_MODE_ENABLED = true; const TEST_MODE_RESOURCE_STEP = 10;
+    const TEST_MODE_ENABLED = false; const TEST_MODE_RESOURCE_STEP = 10;
     // --- Stages ---
     const STAGE_INTRO = 0; const STAGE_RAIN_ONLY = 1; const STAGE_UI_VISIBLE = 2; const STAGE_MAGNIFIER_ACTIVE = 3;
     // --- Intro Text ---
