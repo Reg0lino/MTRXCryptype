@@ -159,4 +159,4 @@
      window.addEventListener('keydown', (event) => { if (event.key === 'Escape') { console.log(">>> Event: ESC key pressed in Landing page."); } });
 
 })(); // End IIFE
-// --- END OF FILE landing_script.js ---
+// --- END OF FILE landing_script.js 
