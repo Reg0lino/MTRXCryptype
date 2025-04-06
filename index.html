@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTRX_CrypType :: Initializing...</title>
-    <!-- Fallback Redirect using Meta Refresh (adjust delay slightly) -->
+    <title>MTRX_CrypType :: Syncing...</title>
+    <!-- Fallback Redirect using Meta Refresh -->
     <meta http-equiv="refresh" content="7; url=./matrix-effect/landing.html">
     <style>
         /* Basic Reset & Styling */
@@ -31,8 +31,7 @@
         #message-container {
             /* Base text shadow */
             text-shadow: 0 0 5px #00ff41, 0 0 10px rgba(0, 255, 65, 0.5);
-             /* Add transition for smooth scaling */
-            transition: transform 0.5s ease-in-out, text-shadow 0.3s linear;
+            /* No transitions needed for this effect */
         }
 
         /* Blinking effect for the cursor */
@@ -44,25 +43,7 @@
             50% { opacity: 0; }
         }
 
-        /* Enhancement Effect triggered after typing */
-        #message-container.enhance-effect {
-            transform: scale(1.05); /* Subtle zoom */
-            animation: text-shimmer 1.5s infinite alternate ease-in-out;
-        }
-
-        /* Shimmer animation using text-shadow */
-        @keyframes text-shimmer {
-            0% {
-                text-shadow: 0 0 5px #00ff41, 0 0 10px rgba(0, 255, 65, 0.5), 0 0 15px rgba(0, 255, 65, 0.3);
-            }
-            50% {
-                 /* Brighter/wider glow */
-                text-shadow: 0 0 8px #33ff77, 0 0 15px rgba(51, 255, 119, 0.7), 0 0 25px rgba(51, 255, 119, 0.5);
-            }
-            100% {
-                text-shadow: 0 0 5px #00ff41, 0 0 10px rgba(0, 255, 65, 0.5), 0 0 15px rgba(0, 255, 65, 0.3);
-            }
-        }
+        /* Remove previous enhance effect styles */
 
     </style>
 </head>
@@ -70,7 +51,6 @@
 
     <div id="message-container">
         <span id="typed-text"></span><span id="cursor">_</span>
-        <!-- No link/button needed anymore -->
     </div>
 
     <script>
@@ -82,30 +62,56 @@
 
         const typingSpeed = 100; // Milliseconds per character
         const pauseBeforeRedirect = 5000; // Milliseconds after typing before auto-redirect (5 seconds)
-        const glitchInterval = 80; // Milliseconds between glitch attempts
-        const glitchIntensity = 0.05; // Probability (0-1) of a character glitching (REDUCED)
 
-        // Reduced glitch character set
-        const glitchChars = ['_', '^', '~', '|', '/', '\\', ' '];
+        // Glitch settings for TYPING phase
+        const typingGlitchInterval = 80;
+        const typingGlitchIntensity = 0.05;
+        const typingGlitchChars = ['_', '^', '~', '|', '/', '\\', ' '];
+
+        // Glitch settings for POST-TYPING (readable) phase
+        const readableGlitchInterval = 100; // How often to apply the effect
+        const readableGlitchIntensity = 0.15; // Chance for a char to glitch per cycle
+        const readableGlitchChars = ['_', '*', '#', '|', '?']; // Smaller set
+
         let charIndex = 0;
-        let glitchTimerId = null;
+        let typingGlitchTimerId = null;
+        let readableGlitchTimerId = null; // Timer for the post-typing effect
         let redirectTimeoutId = null;
 
-        // Glitch function (applies to already typed text)
-        function applyGlitch() {
+        // Glitch function for WHILE TYPING
+        function applyTypingGlitch() {
             let currentHTML = textElement.innerHTML;
             if (currentHTML.length === 0) return;
             let newHTML = '';
             for (let i = 0; i < currentHTML.length; i++) {
                 const char = currentHTML[i];
-                if (char !== ' ' && Math.random() < glitchIntensity) {
-                    newHTML += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                if (char !== ' ' && Math.random() < typingGlitchIntensity) {
+                    newHTML += typingGlitchChars[Math.floor(Math.random() * typingGlitchChars.length)];
                 } else {
                     newHTML += char;
                 }
             }
             textElement.innerHTML = newHTML;
         }
+
+        // Glitch function for AFTER TYPING (readable)
+        function applyReadableGlitch() {
+            let glitchedHTML = '';
+            for (let i = 0; i < targetText.length; i++) {
+                const originalChar = targetText[i];
+                // Decide if this character glitches in THIS cycle
+                if (originalChar !== ' ' && Math.random() < readableGlitchIntensity) {
+                    // Show a glitch character
+                    glitchedHTML += readableGlitchChars[Math.floor(Math.random() * readableGlitchChars.length)];
+                } else {
+                    // If not glitching this cycle, show the ORIGINAL character
+                    glitchedHTML += originalChar;
+                }
+            }
+            // Update the entire text content in each cycle
+            textElement.innerHTML = glitchedHTML;
+        }
+
 
         // Typing function
         function typeWriter() {
@@ -116,30 +122,30 @@
                 setTimeout(typeWriter, typingSpeed);
             } else {
                 // --- Typing finished ---
-                if (glitchTimerId) clearInterval(glitchTimerId); // Stop glitching now typing is done
+                if (typingGlitchTimerId) clearInterval(typingGlitchTimerId); // Stop the initial glitching
                 cursorElement.style.display = 'none'; // Hide cursor completely
+                textElement.innerHTML = targetText; // Ensure final text is correct before starting readable glitch
 
-                // Apply the enhancement effect class
-                messageContainer.classList.add('enhance-effect');
+                // Start the readable glitch effect
+                readableGlitchTimerId = setInterval(applyReadableGlitch, readableGlitchInterval);
 
                 // Schedule automatic redirect after the pause
                 redirectTimeoutId = setTimeout(() => {
-                     window.location.replace(redirectUrl); // Use replace for cleaner history
+                    if (readableGlitchTimerId) clearInterval(readableGlitchTimerId); // Stop effect before redirect
+                    window.location.replace(redirectUrl); // Use replace for cleaner history
                 }, pauseBeforeRedirect); // 5 seconds after typing finishes
             }
         }
 
         // --- Start the process ---
-        // Initial cursor visibility - blinking handled by CSS if class applied
-         cursorElement.classList.add('cursor-blink'); // Start cursor blinking
+        // Initial cursor visibility
+         cursorElement.classList.add('cursor-blink');
 
-        // Start glitching effect (applied only to typed text)
-        glitchTimerId = setInterval(applyGlitch, glitchInterval);
+        // Start the initial typing glitch effect
+        typingGlitchTimerId = setInterval(applyTypingGlitch, typingGlitchInterval);
 
         // Start typing
         typeWriter();
-
-        // No need for click listener anymore
 
     </script>
 
