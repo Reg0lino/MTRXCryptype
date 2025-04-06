@@ -5,7 +5,8 @@ body, html {
     height: 100%;
     overflow: hidden;
     background-color: #000;
-    font-family: 'Consolas', 'Lucida Console', 'Courier New', monospace;
+    /* UPDATED FONT */
+    font-family: 'Courier', monospace;
     color: #0f0; /* Matrix green */
     cursor: pointer; /* Indicate whole body is clickable initially */
 }
@@ -176,7 +177,8 @@ body, html {
     pointer-events: none; /* Allows clicks to pass through */
     z-index: 5; /* Behind main content like line3, but above background */
     color: rgba(0, 255, 0, 0.15); /* Fainter green */
-    font-family: 'Courier New', Courier, monospace;
+    /* UPDATED FONT */
+    font-family: 'Courier', monospace;
     font-size: 9px; /* Smaller characters */
     line-height: 1.0;
     overflow: hidden;
