@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTRX_CrypType :: Connecting...</title>
-    <!-- Fallback Redirect using Meta Refresh (if JS fails/is slow) -->
-    <meta http-equiv="refresh" content="5; url=./matrix-effect/landing.html">
+    <title>MTRX_CrypType :: Initializing...</title>
+    <!-- Fallback Redirect using Meta Refresh (adjust delay slightly) -->
+    <meta http-equiv="refresh" content="7; url=./matrix-effect/landing.html">
     <style>
         /* Basic Reset & Styling */
         *, *::before, *::after {
@@ -20,38 +20,22 @@
         body {
             background-color: #000;
             color: #00ff41; /* Matrix Green */
-            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
             font-size: clamp(1.2em, 3vw, 2em); /* Responsive font size */
+        }
+
+        #message-container {
+            /* Base text shadow */
             text-shadow: 0 0 5px #00ff41, 0 0 10px rgba(0, 255, 65, 0.5);
+             /* Add transition for smooth scaling */
+            transition: transform 0.5s ease-in-out, text-shadow 0.3s linear;
         }
-        #message-container a {
-            color: #00ff41;
-            text-decoration: none;
-            border: 1px solid #00ff41;
-            padding: 5px 10px;
-            display: inline-block; /* Allow padding */
-            margin-top: 20px; /* Space from text */
-            box-shadow: 0 0 8px #00ff41;
-            transition: color 0.3s, background-color 0.3s, box-shadow 0.3s;
-        }
-        #message-container a:hover {
-            background-color: #00ff41;
-            color: #000;
-            box-shadow: 0 0 15px #00ff41, 0 0 25px #00ff41;
-        }
-        /* Hide link initially */
-        #enter-link {
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
-        }
-        #enter-link.visible {
-            opacity: 1;
-        }
-        /* Blinking effect for the cursor - can be applied if needed */
+
+        /* Blinking effect for the cursor */
         .cursor-blink {
             animation: blink 1s step-end infinite;
         }
@@ -59,30 +43,50 @@
             from, to { opacity: 1; }
             50% { opacity: 0; }
         }
+
+        /* Enhancement Effect triggered after typing */
+        #message-container.enhance-effect {
+            transform: scale(1.05); /* Subtle zoom */
+            animation: text-shimmer 1.5s infinite alternate ease-in-out;
+        }
+
+        /* Shimmer animation using text-shadow */
+        @keyframes text-shimmer {
+            0% {
+                text-shadow: 0 0 5px #00ff41, 0 0 10px rgba(0, 255, 65, 0.5), 0 0 15px rgba(0, 255, 65, 0.3);
+            }
+            50% {
+                 /* Brighter/wider glow */
+                text-shadow: 0 0 8px #33ff77, 0 0 15px rgba(51, 255, 119, 0.7), 0 0 25px rgba(51, 255, 119, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 5px #00ff41, 0 0 10px rgba(0, 255, 65, 0.5), 0 0 15px rgba(0, 255, 65, 0.3);
+            }
+        }
+
     </style>
 </head>
 <body>
 
     <div id="message-container">
         <span id="typed-text"></span><span id="cursor">_</span>
-        <br>
-        <a id="enter-link" href="./matrix-effect/landing.html">[ ENTER ]</a>
+        <!-- No link/button needed anymore -->
     </div>
 
     <script>
-        const targetText = "F11 FOR FULLSCREEN"; // Text to type (cursor handled separately)
+        const targetText = "F11 FOR FULLSCREEN"; // Text to type
+        const messageContainer = document.getElementById('message-container');
         const textElement = document.getElementById('typed-text');
         const cursorElement = document.getElementById('cursor');
-        const enterLinkElement = document.getElementById('enter-link');
         const redirectUrl = './matrix-effect/landing.html'; // Target page
 
         const typingSpeed = 100; // Milliseconds per character
-        const linkDelay = 1500; // Milliseconds after typing before showing link
-        const redirectDelay = 2500; // Total milliseconds after link appears before auto-redirect
-        const glitchInterval = 60; // Milliseconds between glitch attempts
-        const glitchIntensity = 0.15; // Probability (0-1) of a character glitching per interval
+        const pauseBeforeRedirect = 5000; // Milliseconds after typing before auto-redirect (5 seconds)
+        const glitchInterval = 80; // Milliseconds between glitch attempts
+        const glitchIntensity = 0.05; // Probability (0-1) of a character glitching (REDUCED)
 
-        const glitchChars = ['█', '▓', '▒', '░', '*', '#', '$', '&', '^', '/', '\\', '|'];
+        // Reduced glitch character set
+        const glitchChars = ['_', '^', '~', '|', '/', '\\', ' '];
         let charIndex = 0;
         let glitchTimerId = null;
         let redirectTimeoutId = null;
@@ -90,6 +94,7 @@
         // Glitch function (applies to already typed text)
         function applyGlitch() {
             let currentHTML = textElement.innerHTML;
+            if (currentHTML.length === 0) return;
             let newHTML = '';
             for (let i = 0; i < currentHTML.length; i++) {
                 const char = currentHTML[i];
@@ -110,24 +115,23 @@
                 charIndex++;
                 setTimeout(typeWriter, typingSpeed);
             } else {
-                // Typing finished
-                cursorElement.classList.add('cursor-blink'); // Make final cursor blink
-                if (glitchTimerId) clearInterval(glitchTimerId); // Stop glitching
+                // --- Typing finished ---
+                if (glitchTimerId) clearInterval(glitchTimerId); // Stop glitching now typing is done
+                cursorElement.style.display = 'none'; // Hide cursor completely
 
-                // Schedule link appearance
-                setTimeout(() => {
-                    enterLinkElement.classList.add('visible');
-                    // Schedule automatic redirect after link appears
-                    redirectTimeoutId = setTimeout(() => {
-                         window.location.replace(redirectUrl); // Use replace for cleaner history
-                    }, redirectDelay);
-                }, linkDelay);
+                // Apply the enhancement effect class
+                messageContainer.classList.add('enhance-effect');
+
+                // Schedule automatic redirect after the pause
+                redirectTimeoutId = setTimeout(() => {
+                     window.location.replace(redirectUrl); // Use replace for cleaner history
+                }, pauseBeforeRedirect); // 5 seconds after typing finishes
             }
         }
 
         // --- Start the process ---
-        // Initial cursor visibility
-        cursorElement.classList.add('cursor-blink');
+        // Initial cursor visibility - blinking handled by CSS if class applied
+         cursorElement.classList.add('cursor-blink'); // Start cursor blinking
 
         // Start glitching effect (applied only to typed text)
         glitchTimerId = setInterval(applyGlitch, glitchInterval);
@@ -135,13 +139,7 @@
         // Start typing
         typeWriter();
 
-        // Clear redirect timer if user clicks the link manually
-        enterLinkElement.addEventListener('click', () => {
-            if (redirectTimeoutId) {
-                clearTimeout(redirectTimeoutId);
-            }
-            // The link's default href will handle navigation
-        });
+        // No need for click listener anymore
 
     </script>
 
