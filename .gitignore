@@ -1,0 +1,16 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+._*
+
+# Editor/IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Log files (if any generated locally)
+*.log
+
+# Any local configuration overrides (example)
+# config.local.js
