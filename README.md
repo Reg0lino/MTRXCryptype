@@ -1,8 +1,23 @@
 # [SYSTEM BOOTING...] MTRX_CrypType
 
-`STATUS: FRAGMENTED`
+`STATUS :: FRAGMENTED`
 `OPERATOR_DETECTED`
+`CLICK :: TYPE :: SEE`
 `QUERY: PURPOSE?`
+
+---
+
+## > ACCESS POINT ESTABLISHED
+
+**[Operator, Initiate Connection Here]**
+
+**[>> ENTER THE STREAM <<](https://Reg0lino.github.io/MTRXCryptype/index.html)**
+
+---
+
+`EXPECT_GLITCHES`
+`REALITY_IS_VARIABLE`
+`//TRANSMISSION END//`
 
 ---
 
@@ -15,7 +30,7 @@
 ## > PROTOCOL: Signal Acquisition
 
 1.  `VISUAL_AMPLIFICATION REQUIRED` :: Engage [F11] for optimal field analysis.
-2.  `INITIATE_CONNECTION` :: Establish link via designated access point.
+2.  `INITIATE_CONNECTION` :: Establish link via designated PC access point.
 3.  `DATA_STREAM_ACTIVE` :: Monitor fluctuations. Observe anomalies.
 4.  `ISOLATE_PACKETS [GREEN/YELLOW]` :: Use cursor-driven amplification [MOUSE].
 5.  `DECRYPTION_CHALLENGE` :: Input sequence required [KEYBOARD]. Timing is critical.
@@ -23,16 +38,4 @@
 
 ---
 
-## > ACCESS POINT ESTABLISHED
 
-**[Operator, Initiate Connection Here]**
-
-**[>> ENTER THE STREAM <<](https://Reg0lino.github.io/MTRXCryptype/index.html)**
-
-*(Replace `your-username` and `mtrx-cryptype` above with your actual GitHub username and repository name)*
-
----
-
-`EXPECT_GLITCHES`
-`REALITY_IS_VARIABLE`
-`//TRANSMISSION END//`
