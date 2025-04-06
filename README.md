@@ -27,7 +27,7 @@
 
 **[Operator, Initiate Connection Here]**
 
-**[>> ENTER THE STREAM <<](https://your-username.github.io/mtrx-cryptype/)**
+**[>> ENTER THE STREAM <<](https://Reg0lino.github.io/MTRXCryptype/index.html)**
 
 *(Replace `your-username` and `mtrx-cryptype` above with your actual GitHub username and repository name)*
 
