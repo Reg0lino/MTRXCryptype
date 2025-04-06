@@ -1,18 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Redirecting...</title>
-    <!-- Use meta refresh as a primary method -->
-    <meta http-equiv="refresh" content="0; url=./matrix-effect/landing.html">
-    <link rel="canonical" href="./matrix-effect/landing.html">
-    <script type="text/javascript">
-        // Use JavaScript replace for cleaner history, run after meta attempt
-        window.location.replace('./matrix-effect/landing.html');
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTRX_CrypType :: Connecting...</title>
+    <!-- Fallback Redirect using Meta Refresh (if JS fails/is slow) -->
+    <meta http-equiv="refresh" content="5; url=./matrix-effect/landing.html">
+    <style>
+        /* Basic Reset & Styling */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        body {
+            background-color: #000;
+            color: #00ff41; /* Matrix Green */
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: clamp(1.2em, 3vw, 2em); /* Responsive font size */
+            text-shadow: 0 0 5px #00ff41, 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+        #message-container a {
+            color: #00ff41;
+            text-decoration: none;
+            border: 1px solid #00ff41;
+            padding: 5px 10px;
+            display: inline-block; /* Allow padding */
+            margin-top: 20px; /* Space from text */
+            box-shadow: 0 0 8px #00ff41;
+            transition: color 0.3s, background-color 0.3s, box-shadow 0.3s;
+        }
+        #message-container a:hover {
+            background-color: #00ff41;
+            color: #000;
+            box-shadow: 0 0 15px #00ff41, 0 0 25px #00ff41;
+        }
+        /* Hide link initially */
+        #enter-link {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+        #enter-link.visible {
+            opacity: 1;
+        }
+        /* Blinking effect for the cursor - can be applied if needed */
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
 </head>
 <body>
-    <p>If you are not redirected automatically, follow this link:</p>
-    <a href="./matrix-effect/landing.html">Go to Sentience Monitor</a>
+
+    <div id="message-container">
+        <span id="typed-text"></span><span id="cursor">_</span>
+        <br>
+        <a id="enter-link" href="./matrix-effect/landing.html">[ ENTER ]</a>
+    </div>
+
+    <script>
+        const targetText = "F11 FOR FULLSCREEN"; // Text to type (cursor handled separately)
+        const textElement = document.getElementById('typed-text');
+        const cursorElement = document.getElementById('cursor');
+        const enterLinkElement = document.getElementById('enter-link');
+        const redirectUrl = './matrix-effect/landing.html'; // Target page
+
+        const typingSpeed = 100; // Milliseconds per character
+        const linkDelay = 1500; // Milliseconds after typing before showing link
+        const redirectDelay = 2500; // Total milliseconds after link appears before auto-redirect
+        const glitchInterval = 60; // Milliseconds between glitch attempts
+        const glitchIntensity = 0.15; // Probability (0-1) of a character glitching per interval
+
+        const glitchChars = ['█', '▓', '▒', '░', '*', '#', '$', '&', '^', '/', '\\', '|'];
+        let charIndex = 0;
+        let glitchTimerId = null;
+        let redirectTimeoutId = null;
+
+        // Glitch function (applies to already typed text)
+        function applyGlitch() {
+            let currentHTML = textElement.innerHTML;
+            let newHTML = '';
+            for (let i = 0; i < currentHTML.length; i++) {
+                const char = currentHTML[i];
+                if (char !== ' ' && Math.random() < glitchIntensity) {
+                    newHTML += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                } else {
+                    newHTML += char;
+                }
+            }
+            textElement.innerHTML = newHTML;
+        }
+
+        // Typing function
+        function typeWriter() {
+            if (charIndex < targetText.length) {
+                // Append next character
+                textElement.innerHTML += targetText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, typingSpeed);
+            } else {
+                // Typing finished
+                cursorElement.classList.add('cursor-blink'); // Make final cursor blink
+                if (glitchTimerId) clearInterval(glitchTimerId); // Stop glitching
+
+                // Schedule link appearance
+                setTimeout(() => {
+                    enterLinkElement.classList.add('visible');
+                    // Schedule automatic redirect after link appears
+                    redirectTimeoutId = setTimeout(() => {
+                         window.location.replace(redirectUrl); // Use replace for cleaner history
+                    }, redirectDelay);
+                }, linkDelay);
+            }
+        }
+
+        // --- Start the process ---
+        // Initial cursor visibility
+        cursorElement.classList.add('cursor-blink');
+
+        // Start glitching effect (applied only to typed text)
+        glitchTimerId = setInterval(applyGlitch, glitchInterval);
+
+        // Start typing
+        typeWriter();
+
+        // Clear redirect timer if user clicks the link manually
+        enterLinkElement.addEventListener('click', () => {
+            if (redirectTimeoutId) {
+                clearTimeout(redirectTimeoutId);
+            }
+            // The link's default href will handle navigation
+        });
+
+    </script>
+
 </body>
 </html>
