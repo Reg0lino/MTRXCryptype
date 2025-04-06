@@ -1,4 +1,4 @@
-# Project: Sentience Monitor v1.0 - Player Guide
+# Project: MTRX_CrypType v1.0 - Player Guide
 
 **Welcome, Operator.**
 
